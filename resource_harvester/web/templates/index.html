@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resource Harvester</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <p class="eyebrow">RESOURCE HARVESTER</p>
+        <h1>Bilibili 本地归档</h1>
+        <p class="source">{{ source_url }}</p>
+      </div>
+      <span id="auth-badge" class="badge">检查登录态</span>
+    </header>
+
+    <section id="loading" class="card">正在解析视频信息…</section>
+
+    <section id="media" class="card media hidden">
+      <img id="cover" alt="视频封面">
+      <div class="media-copy">
+        <h2 id="title"></h2>
+        <p id="owner" class="owner"></p>
+        <p id="description" class="description"></p>
+      </div>
+    </section>
+
+    <section id="options" class="card hidden">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">DOWNLOAD SETUP</p>
+          <h2>选择归档内容</h2>
+        </div>
+        <label class="quality">
+          目标画质
+          <select id="quality"></select>
+        </label>
+      </div>
+
+      <div id="parts" class="parts"></div>
+
+      <div class="toggles">
+        <label><input id="download-cover" type="checkbox" checked> 封面</label>
+        <label><input id="download-metadata" type="checkbox" checked> 元数据</label>
+        <label><input id="download-subtitles" type="checkbox" checked> 字幕 SRT</label>
+        <label><input id="download-xml" type="checkbox" checked> 弹幕 XML</label>
+        <label><input id="download-ass" type="checkbox" checked> 弹幕 ASS</label>
+      </div>
+
+      <button id="start" type="button">开始下载</button>
+      <p class="hint">服务只监听 127.0.0.1。终端按 Ctrl+C 可关闭。</p>
+    </section>
+
+    <section id="job" class="card hidden">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">LIVE JOB</p>
+          <h2 id="stage">等待开始</h2>
+        </div>
+        <span id="status" class="badge">ready</span>
+      </div>
+      <p id="current-file" class="current-file"></p>
+      <div class="progress-track"><div id="progress" class="progress"></div></div>
+      <p id="progress-text" class="hint"></p>
+      <p id="actual-quality" class="hint"></p>
+      <div id="messages"></div>
+      <ul id="artifacts" class="artifacts"></ul>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

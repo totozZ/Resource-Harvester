@@ -30,6 +30,10 @@
 
 ## 功能
 
+- Bilibili 单视频、多 P 视频解析和本地可视化下载
+- DASH 画质选择、断点续传及 FFmpeg 音视频合并
+- Bilibili 封面、元数据、字幕 SRT、弹幕 XML/ASS 归档
+- 游客访问及隔离保存的可选 Bilibili 登录态
 - 手动登录一次并保存登录态
 - 使用 Chromium 打开登录后的页面
 - 扫描页面里的所有 `a` 链接
@@ -51,6 +55,10 @@
 通用模式适合普通链接和浏览器下载事件。对于用复杂后台接口生成文件的网站，可以参考 SmartEdu 适配器写一个专门适配器。
 
 ## 安装
+
+需要 Python 3.11 或更高版本。Bilibili 音视频合并还需要单独安装
+[FFmpeg](https://ffmpeg.org/download.html)，并确保终端可以运行
+`ffmpeg -version`。
 
 克隆仓库并进入项目目录：
 
@@ -78,6 +86,13 @@ pip install -r requirements.txt
 playwright install chromium
 ```
 
+运行测试：
+
+```powershell
+pip install -r requirements-dev.txt
+python -m pytest -q
+```
+
 ## 快速开始
 
 通用网页下载流程：
@@ -96,9 +111,48 @@ python main.py login
 python main.py smartedu-grade
 ```
 
+Bilibili 本地可视化下载：
+
+```powershell
+python main.py bilibili "https://www.bilibili.com/video/BV..."
+```
+
+命令会启动仅监听 `127.0.0.1` 的服务并自动打开浏览器。游客模式可以处理
+公开内容；如需使用账号本身有权访问的画质或字幕，先运行：
+
+```powershell
+python main.py bilibili-login
+```
+
+登录态保存在 `auth/bilibili.json`，属于敏感凭据，禁止提交、上传或分享。
+
 更短的上手步骤见 [QUICKSTART.md](./QUICKSTART.md)。
 
 ## 命令说明
+
+### Bilibili 视频归档
+
+```powershell
+python main.py bilibili <BV号或视频链接>
+```
+
+支持裸 BV 号、标准视频地址、带 `?p=` 的地址和 `b23.tv` 短链接；页面可以
+选择分 P、画质、封面、元数据、字幕和弹幕，并查看下载及合并进度。
+
+默认输出：
+
+```text
+downloads/bilibili/<视频标题>/
+  metadata.json
+  cover.jpg
+  01-<分P标题>.mp4
+  01-<分P标题>.<语言>.srt
+  01-<分P标题>.danmaku.xml
+  01-<分P标题>.danmaku.ass
+```
+
+本项目不绕过会员、付费、地区、账号权限或 DRM，仅处理公开内容或当前账号
+本身有权访问的内容。高级定位弹幕不会写入基础 ASS，并会在页面显示跳过数量。
 
 ### 1. 保存登录态
 

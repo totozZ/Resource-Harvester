@@ -23,6 +23,10 @@ This project does not store usernames or passwords. Login is completed manually 
 
 ## What It Can Do
 
+- Resolve and archive public Bilibili single-part and multi-part videos
+- Select DASH quality, resume partial streams, and merge with FFmpeg
+- Save Bilibili covers, metadata, SRT subtitles, and XML/ASS danmaku
+- Show a loopback-only local dashboard with live job progress
 - Reuse your manually logged-in browser session
 - Open authenticated pages with Chromium
 - Scan all page links and button-like elements
@@ -50,6 +54,9 @@ Resource Harvester uses your own logged-in session. It does not bypass paywalls,
 
 ## Install
 
+Python 3.11 or newer is required. Bilibili audio/video merging also requires
+[FFmpeg](https://ffmpeg.org/download.html) on `PATH`.
+
 ```powershell
 git clone https://github.com/totozZ/Resource-Harvester-.git
 cd Resource-Harvester-
@@ -57,6 +64,13 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 playwright install chromium
+```
+
+For tests:
+
+```powershell
+pip install -r requirements-dev.txt
+python -m pytest -q
 ```
 
 ## Quick Start
@@ -78,6 +92,21 @@ For SmartEdu full-book downloads:
 python main.py login
 python main.py smartedu-grade
 ```
+
+For Bilibili, provide a BV ID, video URL, `?p=` URL, or `b23.tv` short URL:
+
+```powershell
+python main.py bilibili "https://www.bilibili.com/video/BV..."
+```
+
+The command starts a server bound only to `127.0.0.1`, opens the dashboard,
+and lets you select parts, quality, cover, metadata, subtitles, and danmaku.
+Public videos work as a guest. For optional access already granted to your
+account, run `python main.py bilibili-login` first.
+
+This stores sensitive cookies in `auth/bilibili.json`. Never commit, upload,
+or share that file. The project does not bypass membership, payment, region,
+account-permission, or DRM restrictions.
 
 ## Commands
 

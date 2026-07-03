@@ -43,6 +43,9 @@ def get_zh_title(value) -> str:
 
 
 def get_access_token_from_auth(auth_path: str = AUTH_FILE) -> str:
+    if not Path(auth_path).exists():
+        return ""
+
     data = json.loads(Path(auth_path).read_text(encoding="utf-8"))
     for origin in data.get("origins", []):
         for item in origin.get("localStorage", []):

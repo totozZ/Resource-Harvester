@@ -44,6 +44,32 @@ auth.json
 
 Keep this file local only. It is already ignored by `.gitignore`.
 
+## Bilibili Video Dashboard
+
+Install FFmpeg separately and confirm it is available:
+
+```powershell
+ffmpeg -version
+```
+
+Then start with a BV ID or video URL:
+
+```powershell
+python main.py bilibili "BV1..."
+```
+
+The command opens a local page where you can preview the video, select parts
+and quality, choose metadata/subtitle/danmaku outputs, and watch progress.
+
+Public videos do not require login. For optional account-authorized access:
+
+```powershell
+python main.py bilibili-login
+```
+
+This creates `auth/bilibili.json`. Keep it private. The downloader does not
+bypass paid content, membership, region restrictions, account permissions, or DRM.
+
 ## 3. Inspect The Target Page
 
 ```powershell
@@ -142,6 +168,8 @@ python main.py download        # Download likely file links
 python main.py click-download  # Try download/export buttons
 python main.py smartedu        # SmartEdu single course page
 python main.py smartedu-grade  # SmartEdu full textbook page
+python main.py bilibili URL    # Bilibili local download dashboard
+python main.py bilibili-login  # Save optional Bilibili login state
 ```
 
 ## Where Are Files Saved?
@@ -156,6 +184,12 @@ SmartEdu downloads:
 
 ```text
 downloads/smartedu/
+```
+
+Bilibili downloads:
+
+```text
+downloads/bilibili/<video title>/
 ```
 
 ## Troubleshooting

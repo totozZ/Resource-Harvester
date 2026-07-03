@@ -1,1 +1,5 @@
-playwright
+fastapi>=0.115
+httpx>=0.28
+jinja2>=3.1
+playwright>=1.50
+uvicorn>=0.34

@@ -10,7 +10,7 @@ from smartedu_xiaoyuan_download import (
     get_access_token_from_auth,
     get_zh_title,
 )
-from utils import AUTH_FILE, ensure_auth_file, ensure_download_dir, safe_filename, setup_logging, unique_path
+from utils import AUTH_FILE, ensure_download_dir, safe_filename, setup_logging, unique_path
 
 
 TEACHING_MATERIAL_PARTS_URL = (
@@ -124,7 +124,6 @@ def download_one(response_context, url: str, path: Path) -> bool:
 
 def download_grade(page_url: str) -> None:
     setup_logging()
-    ensure_auth_file()
 
     tag_ids = default_tag_ids(page_url)
     token = get_access_token_from_auth()
@@ -132,7 +131,8 @@ def download_grade(page_url: str) -> None:
         logging.warning("没有从 auth.json 中解析到 accessToken，仍会尝试使用 cookie 下载。")
 
     with sync_playwright() as p:
-        request_context = p.request.new_context(storage_state=AUTH_FILE)
+        auth_path = Path(AUTH_FILE)
+        request_context = p.request.new_context(storage_state=AUTH_FILE) if auth_path.exists() else p.request.new_context()
 
         material = find_material(request_context, tag_ids)
         material_id = material["id"]
@@ -196,11 +196,6 @@ def download_grade(page_url: str) -> None:
 
 def main() -> None:
     setup_logging()
-    try:
-        ensure_auth_file()
-    except FileNotFoundError as exc:
-        logging.error(str(exc))
-        return
 
     page_url = input("请输入智慧教育整册导航页 URL：").strip()
     if not page_url:
