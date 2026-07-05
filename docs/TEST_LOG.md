@@ -4,6 +4,14 @@ Append one record for every delivery work unit. Allowed results: `Passed`, `Fail
 
 <!-- project-plan-orchestrator:tests:start -->
 <!-- Append new test records above the end marker. -->
+## TR-20260705-003
+
+- Result: Passed
+- Work: W-007
+- Environment: Windows PowerShell, repository working tree with new `pics/` screenshots
+- Command: `Test-Path .\pics\download1.png`; `Test-Path .\pics\download2.png`; `rg -n "download1.png|download2.png" README.md README.cn.md`; `python .project-plan\planctl.py check --root .`
+- Evidence: Both screenshot files resolved locally, both README files reference `download1.png` and `download2.png`, and the Project Plan Orchestrator guard passed.
+
 ## TR-20260705-002
 
 - Result: Failed

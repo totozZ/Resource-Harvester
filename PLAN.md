@@ -15,6 +15,7 @@
 | W-004 | P0 | feature | Done | Passed | W-003 | [Add the local dashboard and CLI](docs/work/W-004-local-dashboard.md) | TR-20260703-004 | — |
 | W-005 | P1 | maintenance | Done | Passed | W-004 | [Finish regression coverage and documentation](docs/work/W-005-verification-docs.md) | TR-20260703-005 | — |
 | W-006 | P1 | bug | Implemented | Failed | W-005 | [Fix dashboard cover preview](docs/work/W-006-dashboard-cover-preview.md) | TR-20260705-001, TR-20260705-002 | BUG-001 |
+| W-007 | P2 | maintenance | Done | Passed | W-005 | [Add README download page screenshots](docs/work/W-007-readme-download-screenshots.md) | TR-20260705-003 | — |
 <!-- project-plan-orchestrator:work-items:end -->
 
 ## Next action

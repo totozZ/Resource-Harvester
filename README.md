@@ -104,6 +104,12 @@ and lets you select parts, quality, cover, metadata, subtitles, and danmaku.
 Public videos work as a guest. For optional access already granted to your
 account, run `python main.py bilibili-login` first.
 
+Dashboard examples:
+
+![Bilibili local archive download setup](./pics/download1.png)
+
+![Bilibili local archive completed download](./pics/download2.png)
+
 This stores sensitive cookies in `auth/bilibili.json`. Never commit, upload,
 or share that file. The project does not bypass membership, payment, region,
 account-permission, or DRM restrictions.

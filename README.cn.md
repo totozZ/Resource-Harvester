@@ -124,6 +124,12 @@ python main.py bilibili "https://www.bilibili.com/video/BV..."
 python main.py bilibili-login
 ```
 
+页面示例：
+
+![Bilibili 本地归档下载选择页面](./pics/download1.png)
+
+![Bilibili 本地归档下载完成页面](./pics/download2.png)
+
 登录态保存在 `auth/bilibili.json`，属于敏感凭据，禁止提交、上传或分享。
 
 更短的上手步骤见 [QUICKSTART.md](./QUICKSTART.md)。
