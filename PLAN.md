@@ -1,8 +1,8 @@
 # 1 Project Plan
 
-- Updated: 2026-07-03
-- Current objective: Bilibili adapter, media pipeline, and local dashboard delivered.
-- Current work unit: W-005
+- Updated: 2026-07-05
+- Current objective: Dashboard cover preview bug remains open.
+- Current work unit: W-006
 
 ## Priority queue
 
@@ -14,11 +14,12 @@
 | W-003 | P0 | feature | Done | Passed | W-002 | [Build the media download and conversion pipeline](docs/work/W-003-media-pipeline.md) | TR-20260703-003 | — |
 | W-004 | P0 | feature | Done | Passed | W-003 | [Add the local dashboard and CLI](docs/work/W-004-local-dashboard.md) | TR-20260703-004 | — |
 | W-005 | P1 | maintenance | Done | Passed | W-004 | [Finish regression coverage and documentation](docs/work/W-005-verification-docs.md) | TR-20260703-005 | — |
+| W-006 | P1 | bug | Implemented | Failed | W-005 | [Fix dashboard cover preview](docs/work/W-006-dashboard-cover-preview.md) | TR-20260705-001, TR-20260705-002 | BUG-001 |
 <!-- project-plan-orchestrator:work-items:end -->
 
 ## Next action
 
-Optional manual acceptance: install FFmpeg and download one authorized public video through the dashboard.
+Diagnose the live dashboard cover path: confirm refreshed JS, `/api/media`, `/api/cover`, and browser console/network behavior.
 
 ## Record index
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 import threading
 import time
 
+import httpx
 from fastapi.testclient import TestClient
 
 from resource_harvester.jobs import DownloadJob
@@ -59,6 +60,26 @@ class BlockingPipeline:
         job.update(status="completed", stage="全部完成")
 
 
+class FakeCoverClient:
+    def __init__(self) -> None:
+        self.requests: list[tuple[str, str, dict]] = []
+
+    def request(self, method: str, url: str, **kwargs) -> httpx.Response:
+        self.requests.append((method, url, kwargs))
+        return httpx.Response(
+            200,
+            content=b"fake-cover",
+            headers={"content-type": "image/jpeg"},
+            request=httpx.Request(method, url),
+        )
+
+
+class CoverPipeline(BlockingPipeline):
+    def __init__(self) -> None:
+        super().__init__()
+        self.client = FakeCoverClient()
+
+
 def payload() -> dict:
     return {
         "part_cids": [100],
@@ -78,6 +99,29 @@ def test_media_api_hides_stream_urls() -> None:
         response = client.get("/api/media")
     assert response.status_code == 200
     assert "secret.example" not in response.text
+    assert response.json()["cover_preview_url"] == "/api/cover"
+
+
+def test_cover_preview_endpoint_returns_image_bytes() -> None:
+    pipeline = CoverPipeline()
+    app = create_app(sample_resource(), pipeline)
+    with TestClient(app) as client:
+        response = client.get("/api/cover")
+    assert response.status_code == 200
+    assert response.content == b"fake-cover"
+    assert response.headers["content-type"] == "image/jpeg"
+    assert pipeline.client.requests == [
+        (
+            "GET",
+            "https://example.test/cover.jpg",
+            {
+                "headers": {
+                    "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                    "Referer": "https://www.bilibili.com/",
+                },
+            },
+        )
+    ]
 
 
 def test_job_lifecycle_and_rejects_second_active_job(monkeypatch) -> None:

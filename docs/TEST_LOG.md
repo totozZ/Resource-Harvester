@@ -4,6 +4,24 @@ Append one record for every delivery work unit. Allowed results: `Passed`, `Fail
 
 <!-- project-plan-orchestrator:tests:start -->
 <!-- Append new test records above the end marker. -->
+## TR-20260705-002
+
+- Result: Failed
+- Work: W-006
+- Bug: BUG-001
+- Environment: User manual check in the local dashboard after the W-006 cover proxy change
+- Command: Manual procedure — reload the local Bilibili dashboard page for the affected video and inspect the cover preview panel.
+- Evidence: User reported "没有作用"; the cover preview still does not appear in the local service page. The automated `/api/cover` regression was insufficient to prove real dashboard behavior.
+
+## TR-20260705-001
+
+- Result: Passed
+- Work: W-006
+- Bug: BUG-001
+- Environment: Windows PowerShell, Python virtual environment
+- Command: `.venv\Scripts\python.exe -m pytest tests\test_web_app.py -q`; `.venv\Scripts\python.exe -m pytest -q --basetemp .pytest-tmp-w006`; `python .project-plan\planctl.py check --root .`
+- Evidence: 5 focused web tests passed, including `/api/media` exposing `/api/cover` as the local preview URL and `/api/cover` returning image bytes through the backend cover client without exposing stream URLs. Full regression passed with 19 tests after using a workspace basetemp because the default user Temp pytest directory was not accessible. The Project Plan Orchestrator guard passed.
+
 ## TR-20260703-001
 
 - Result: Passed

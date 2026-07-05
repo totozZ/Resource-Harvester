@@ -30,6 +30,23 @@ function showError(message) {
   $("#loading").innerHTML = `<div class="message error">${escapeHtml(message)}</div>`;
 }
 
+function setCover(source) {
+  const cover = $("#cover");
+  cover.onload = () => {
+    cover.alt = "视频封面";
+  };
+  cover.onerror = () => {
+    cover.alt = "";
+    cover.removeAttribute("src");
+  };
+  if (source) {
+    cover.src = source;
+  } else {
+    cover.alt = "";
+    cover.removeAttribute("src");
+  }
+}
+
 async function loadMedia() {
   try {
     const response = await fetch("/api/media");
@@ -38,7 +55,7 @@ async function loadMedia() {
     $("#loading").classList.add("hidden");
     $("#media").classList.remove("hidden");
     $("#options").classList.remove("hidden");
-    $("#cover").src = media.cover_url;
+    setCover(media.cover_preview_url || media.cover_url);
     $("#title").textContent = media.title;
     $("#owner").textContent = `UP 主 · ${media.owner || "未知"}`;
     $("#description").textContent = media.description || "没有视频简介";
